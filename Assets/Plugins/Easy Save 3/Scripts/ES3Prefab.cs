@@ -210,3 +210,14 @@ namespace ES3Types
         }
     }
 }
+
+namespace UnityEditor.SceneManagement
+{
+    class PrefabStageUtility
+    {
+        internal static object GetCurrentPrefabStage()
+        {
+            throw new System.NotImplementedException();
+        }
+    }
+}
