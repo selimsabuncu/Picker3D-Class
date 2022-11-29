@@ -61,7 +61,7 @@ namespace Managers
             CoreUISignals.Instance.onOpenPanel?.Invoke(UIPanelTypes.Level, 0);
             UISignals.Instance.onSetNewLevelValue?.Invoke(levelValue);
         }
-
+        
         private void OnLevelSuccesful()
         {
             CoreUISignals.Instance.onOpenPanel?.Invoke(UIPanelTypes.Win, 2);
