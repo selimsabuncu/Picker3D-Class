@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Data.UnityObjects;
 using Data.ValueObjects;
 using Signals;
+using Keys;
 using Sirenix.OdinInspector;
 using Unity.Mathematics;
 using UnityEngine;
@@ -79,17 +80,17 @@ namespace Managers
             {
                 _isTouching = false;
 
-                //InputSignals.Instance.onInputReleased?.Invoke();
+                InputSignals.Instance.onInputReleased?.Invoke();
             }
 
             if (Input.GetMouseButtonDown(0) && !IsPointerOverUIElement())
             {
                 _isTouching = true;
-                //InputSignals.Instance.onInputTaken?.Invoke();
+                InputSignals.Instance.onInputTaken?.Invoke();
                 if (!_isFirstTimeTouchTaken)
                 {
                     _isFirstTimeTouchTaken = true;
-                    //InputSignals.Instance.onFirstTimeTouchTaken?.Invoke();
+                    InputSignals.Instance.onFirstTimeTouchTaken?.Invoke();
                 }
 
                 _mousePosition = Input.mousePosition;
@@ -103,7 +104,6 @@ namespace Managers
                     {
                         Vector2 mouseDeltaPos = (Vector2)Input.mousePosition - _mousePosition.Value;
 
-
                         if (mouseDeltaPos.x > _data.HorizontalInputSpeed)
                             _moveVector.x = _data.HorizontalInputSpeed / 10f * mouseDeltaPos.x;
                         else if (mouseDeltaPos.x < -_data.HorizontalInputSpeed)
@@ -114,12 +114,12 @@ namespace Managers
 
                         _mousePosition = Input.mousePosition;
 
-                        // InputSignals.Instance.onInputDragged?.Invoke(new HorizontalnputParams()
-                        // {
-                        //     HorizontalInputValue = _moveVector.x,
-                        //     HorizontalInputClampNegativeSide = InputData.Data.HorizontalInputClampNegativeSide,
-                        //     HorizontalInputClampPositiveSide = InputData.Data.HorizontalInputClampPositiveSide
-                        // });
+                        InputSignals.Instance.onInputDragged?.Invoke(new HorizontalInputParams()
+                        {
+                            HorizontalInputValue = _moveVector.x,
+                            HorizontalInputClampNegativeSide = _data.ClampValues.x,
+                            HorizontalInputClampPositiveSide = _data.ClampValues.y
+                        });
                     }
                 }
             }
