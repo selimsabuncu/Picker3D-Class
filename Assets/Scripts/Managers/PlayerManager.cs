@@ -4,6 +4,8 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using Controllers.Player;
 using System;
+using Signals;
+using Keys;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -25,7 +27,6 @@ public class PlayerManager : MonoBehaviour
 
     #endregion
 
-
     private void Awake()
     {
         _data = GetPlayerData();
@@ -34,7 +35,7 @@ public class PlayerManager : MonoBehaviour
 
     private void SendDataToControllers()
     {
-        movementController.GetMovementData(_data.MovementData);
+        movementController.SetMovementData(_data.MovementData);
         meshController.GetMeshData(_data.ScaleData);
     }
 
@@ -50,17 +51,72 @@ public class PlayerManager : MonoBehaviour
 
     private void SubscribeEvents()
     {
+        InputSignals.Instance.onInputTaken += OnInputTaken;
+        InputSignals.Instance.onInputReleased += OnInputReleased;
+        InputSignals.Instance.onInputDragged += OnInputDragged;
+        CoreGameSignals.Instance.onPlay += OnPlay;
+        CoreGameSignals.Instance.onLevelSuccessful += OnLevelSuccessful;
+        CoreGameSignals.Instance.onLevelFailed += OnLevelFailed;
+        CoreGameSignals.Instance.onStageAreaReached += OnStageAreaReached;
+        CoreGameSignals.Instance.onStageSuccessful += OnStageSuccessful;
         CoreGameSignals.Instance.onReset += OnReset;
     }
 
     private void UnSubscribeEvents()
     {
+        InputSignals.Instance.onInputTaken -= OnInputTaken;
+        InputSignals.Instance.onInputReleased -= OnInputReleased;
+        InputSignals.Instance.onInputDragged -= OnInputDragged;
+        CoreGameSignals.Instance.onPlay -= OnPlay;
+        CoreGameSignals.Instance.onLevelSuccessful -= OnLevelSuccessful;
+        CoreGameSignals.Instance.onLevelFailed -= OnLevelFailed;
+        CoreGameSignals.Instance.onStageAreaReached -= OnStageAreaReached;
+        CoreGameSignals.Instance.onStageSuccessful -= OnStageSuccessful;
         CoreGameSignals.Instance.onReset -= OnReset;
     }
 
     private void OnDisable()
     {
         UnSubscribeEvents();
+    }
+
+    private void OnPlay()
+    {
+        movementController.IsReadyToPlay(true);
+    }
+
+    private void OnInputTaken()
+    {
+        movementController.IsReadyToMove(true);
+    }
+
+    private void OnInputDragged(HorizontalInputParams inputParams)
+    {
+        movementController.UpdateInputValues(inputParams);
+    }
+
+    private void OnInputReleased()
+    {
+        movementController.IsReadyToMove(false);
+    }
+
+    private void OnLevelSuccessful()
+    {
+        movementController.IsReadyToPlay(false);
+    }
+
+    private void OnLevelFailed()
+    {
+        movementController.IsReadyToPlay(false);
+    }
+    private void OnStageSuccessful()
+    {
+        movementController.IsReadyToPlay(true);
+    }
+
+    private void OnStageAreaReached()
+    {
+        movementController.IsReadyToPlay(false);
     }
 
     private void OnReset()

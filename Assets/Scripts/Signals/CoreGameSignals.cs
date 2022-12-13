@@ -31,5 +31,6 @@ public class CoreGameSignals : MonoBehaviour
     public UnityAction onPlay = delegate { };
     public UnityAction onReset = delegate { };
 
-
+    public UnityAction onStageAreaReached = delegate { };
+    public UnityAction onStageSuccessful = delegate { };
 }
