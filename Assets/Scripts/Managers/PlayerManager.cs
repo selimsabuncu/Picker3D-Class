@@ -1,72 +1,74 @@
-using Data.ValueObjects;
+using Controllers.Player;
 using Data.UnityObjects;
+using Data.ValueObjects;
+using Signals;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using Controllers.Player;
-using System;
 
-public class PlayerManager : MonoBehaviour
+namespace Managers
 {
-    #region Self Variables
-
-    #region Serialized Variables
-
-    [SerializeField] private PlayerMovementController movementController;
-    [SerializeField] private PlayerPhysicsController physicsController;
-    [SerializeField] private PlayerMeshController meshController;
-
-    #endregion
-
-    #region Private Variables
-
-    [ShowInInspector] private PlayerData _data;
-
-    #endregion
-
-    #endregion
-
-
-    private void Awake()
+    public class PlayerManager : MonoBehaviour
     {
-        _data = GetPlayerData();
-        SendDataToControllers();
-    }
+        #region Self Variables
 
-    private void SendDataToControllers()
-    {
-        movementController.GetMovementData(_data.MovementData);
-        meshController.GetMeshData(_data.ScaleData);
-    }
+        #region Serialized Variables
 
-    private PlayerData GetPlayerData()
-    {
-        return Resources.Load<CD_Player>("Data/CD_Player").Data;
-    }
+        [SerializeField] private PlayerMovementController movementController;
+        [SerializeField] private PlayerPhysicsController physicsController;
+        [SerializeField] private PlayerMeshController meshController;
 
-    private void OnEnable()
-    {
-        SubscribeEvents();
-    }
+        #endregion
 
-    private void SubscribeEvents()
-    {
-        CoreGameSignals.Instance.onReset += OnReset;
-    }
+        #region Private Variables
 
-    private void UnSubscribeEvents()
-    {
-        CoreGameSignals.Instance.onReset -= OnReset;
-    }
+        [ShowInInspector] private PlayerData _data;
 
-    private void OnDisable()
-    {
-        UnSubscribeEvents();
-    }
+        #endregion
 
-    private void OnReset()
-    {
-        movementController.OnReset();
-        meshController.OnReset();
-        physicsController.OnReset();
+        #endregion
+
+        private void Awake()
+        {
+            _data = GetPlayerData();
+            SendDataToControllers();
+        }
+
+        private PlayerData GetPlayerData()
+        {
+            return Resources.Load<CD_Player>("Data/CD_Player").Data;
+        }
+
+        private void SendDataToControllers()
+        {
+            movementController.GetMovementData(_data.MovementData);
+            meshController.GetMeshData(_data.ScaleData);
+        }
+
+        private void OnEnable()
+        {
+            SubscribeEvents();
+        }
+
+        private void SubscribeEvents()
+        {
+            CoreGameSignals.Instance.onReset += OnReset;
+        }
+
+        private void UnSubscribeEvents()
+        {
+            CoreGameSignals.Instance.onReset -= OnReset;
+        }
+
+        private void OnDisable()
+        {
+            UnSubscribeEvents();
+        }
+
+        private void OnReset()
+        {
+            movementController.OnReset();
+            meshController.OnReset();
+            physicsController.OnReset();
+        }
     }
 }

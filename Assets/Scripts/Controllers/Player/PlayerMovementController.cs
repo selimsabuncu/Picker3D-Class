@@ -1,6 +1,6 @@
 using Data.ValueObjects;
+using Managers;
 using Sirenix.OdinInspector;
-using System;
 using UnityEngine;
 
 namespace Controllers.Player
@@ -19,20 +19,20 @@ namespace Controllers.Player
 
         #region Private Variables
 
-        [ShowInInspector] private ScaleData _data;
+        [ShowInInspector] private MovementData _data;
 
         #endregion
 
         #endregion
 
-        internal void OnReset()
+        public void OnReset()
         {
 
         }
 
-        internal void GetMovementData(MovementData movementData)
+        public void GetMovementData(MovementData movementData)
         {
-            throw new NotImplementedException();
+            _data = movementData;
         }
     }
 }
