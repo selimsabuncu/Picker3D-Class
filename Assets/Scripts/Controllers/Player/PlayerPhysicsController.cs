@@ -1,4 +1,4 @@
-using Managers;
+using System;
 using UnityEngine;
 
 namespace Controllers.Player
@@ -16,10 +16,9 @@ namespace Controllers.Player
         #endregion
 
         #endregion
-
-        public void OnReset()
+        internal void OnReset()
         {
-
+            
         }
     }
 }
