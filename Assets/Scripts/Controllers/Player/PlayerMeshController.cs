@@ -1,6 +1,6 @@
 using Data.ValueObjects;
+using Managers;
 using Sirenix.OdinInspector;
-using System;
 using UnityEngine;
 
 namespace Controllers.Player
@@ -12,7 +12,7 @@ namespace Controllers.Player
         #region Serialized Variables
 
         [SerializeField] private PlayerManager manager;
-        [SerializeField] private Renderer renderer;
+        [SerializeField] private new Renderer renderer;
 
         #endregion
 
@@ -20,13 +20,18 @@ namespace Controllers.Player
 
         [ShowInInspector] private ScaleData _data;
 
-
         #endregion
 
         #endregion
-        internal void OnReset()
+
+        public void OnReset()
         {
 
+        }
+
+        public void GetMeshData(ScaleData scaleData)
+        {
+            _data = scaleData;
         }
     }
 }
