@@ -24,42 +24,47 @@ namespace Controllers.Player
 
         [ShowInInspector] private MovementData _data;
         [ShowInInspector] private bool _isReadyToMove, _isReadyToPlay;
-
         [ShowInInspector] private float _xValue;
-        private float _minClamp, _maxClamp;
-        [ShowInInspector] private Vector2 _clampValues;
+        private float2 _clampValues;
 
         #endregion
 
         #endregion
 
-        internal void SetMovementData(MovementData movementData)
+        internal void GetMovementData(MovementData movementData)
         {
             _data = movementData;
         }
 
         private void FixedUpdate()
         {
-            if (_isReadyToPlay)
+            if (!_isReadyToPlay)
             {
-                if (_isReadyToMove)
-                {
-                    MovePlayer();
-                }
-                else StopPlayerHorizontally();
+                StopPlayer();
+                return;
             }
-            else StopPlayer();
+            if (_isReadyToMove)
+            {
+                MovePlayer();
+            }
+            else StopPlayerHorizontally();
+        }
+
+        private void StopPlayerHorizontally()
+        {
+            rigidbody.velocity = new float3(0, rigidbody.velocity.y, _data.ForwardSpeed);
+            rigidbody.angularVelocity = float3.zero;
         }
 
         private void MovePlayer()
         {
             var velocity = rigidbody.velocity;
-            velocity = new Vector3(_xValue * _data.SidewaysSpeed, velocity.y,
+            velocity = new float3(_xValue * _data.SidewaysSpeed, velocity.y,
                 _data.ForwardSpeed);
             rigidbody.velocity = velocity;
 
-            Vector3 position;
-            position = new Vector3(
+            float3 position;
+            position = new float3(
                 Mathf.Clamp(rigidbody.position.x, _clampValues.x,
                     _clampValues.y),
                 (position = rigidbody.position).y,
@@ -67,15 +72,10 @@ namespace Controllers.Player
             rigidbody.position = position;
         }
 
-        private void StopPlayerHorizontally()
-        {
-            rigidbody.velocity = new Vector3(0, rigidbody.velocity.y, _data.ForwardSpeed);
-            rigidbody.angularVelocity = Vector3.zero;
-        }
         private void StopPlayer()
         {
-            rigidbody.velocity = Vector3.zero;
-            rigidbody.angularVelocity = Vector3.zero;
+            rigidbody.velocity = float3.zero;
+            rigidbody.angularVelocity = float3.zero;
         }
 
         internal void IsReadyToPlay(bool condition)
@@ -88,12 +88,10 @@ namespace Controllers.Player
             _isReadyToMove = condition;
         }
 
-        internal void UpdateInputValues(HorizontalInputParams inputParams)
+        internal void UpdateInputParams(HorizontalInputParams inputParams)
         {
             _xValue = inputParams.HorizontalInputValue;
             _clampValues = new float2(inputParams.HorizontalInputClampNegativeSide, inputParams.HorizontalInputClampPositiveSide);
-            //_minClamp = inputParams.HorizontalInputClampNegativeSide;
-            //_maxClamp = inputParams.HorizontalInputClampPositiveSide;
         }
 
         internal void OnReset() 

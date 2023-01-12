@@ -35,7 +35,7 @@ public class PlayerManager : MonoBehaviour
 
     private void SendDataToControllers()
     {
-        movementController.SetMovementData(_data.MovementData);
+        movementController.GetMovementData(_data.MovementData);
         meshController.GetMeshData(_data.ScaleData);
     }
 
@@ -57,7 +57,7 @@ public class PlayerManager : MonoBehaviour
         CoreGameSignals.Instance.onPlay += OnPlay;
         CoreGameSignals.Instance.onLevelSuccessful += OnLevelSuccessful;
         CoreGameSignals.Instance.onLevelFailed += OnLevelFailed;
-        CoreGameSignals.Instance.onStageAreaReached += OnStageAreaReached;
+        CoreGameSignals.Instance.onStageAreaEntered += OnStageAreaEntered;
         CoreGameSignals.Instance.onStageSuccessful += OnStageSuccessful;
         CoreGameSignals.Instance.onReset += OnReset;
     }
@@ -70,7 +70,7 @@ public class PlayerManager : MonoBehaviour
         CoreGameSignals.Instance.onPlay -= OnPlay;
         CoreGameSignals.Instance.onLevelSuccessful -= OnLevelSuccessful;
         CoreGameSignals.Instance.onLevelFailed -= OnLevelFailed;
-        CoreGameSignals.Instance.onStageAreaReached -= OnStageAreaReached;
+        CoreGameSignals.Instance.onStageAreaEntered -= OnStageAreaEntered;
         CoreGameSignals.Instance.onStageSuccessful -= OnStageSuccessful;
         CoreGameSignals.Instance.onReset -= OnReset;
     }
@@ -92,7 +92,7 @@ public class PlayerManager : MonoBehaviour
 
     private void OnInputDragged(HorizontalInputParams inputParams)
     {
-        movementController.UpdateInputValues(inputParams);
+        movementController.UpdateInputParams(inputParams);
     }
 
     private void OnInputReleased()
@@ -109,14 +109,15 @@ public class PlayerManager : MonoBehaviour
     {
         movementController.IsReadyToPlay(false);
     }
+
+    private void OnStageAreaEntered()
+    {
+        movementController.IsReadyToPlay(false);
+    }
+
     private void OnStageSuccessful()
     {
         movementController.IsReadyToPlay(true);
-    }
-
-    private void OnStageAreaReached()
-    {
-        movementController.IsReadyToPlay(false);
     }
 
     private void OnReset()

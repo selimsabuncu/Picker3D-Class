@@ -22,7 +22,7 @@ namespace Controllers.Player
         {
             if(other.CompareTag("StageArea"))
             {
-                CoreGameSignals.Instance.onStageAreaReached?.Invoke();
+                CoreGameSignals.Instance.onStageAreaEntered?.Invoke();
                 InputSignals.Instance.onDisableInput?.Invoke();
             }
         }

@@ -56,10 +56,10 @@ namespace Managers
 
         private void SubscribeEvents()
         {
-            CoreGameSignals.Instance.onReset += OnReset;
-            CoreGameSignals.Instance.onPlay += OnPlay;
             InputSignals.Instance.onEnableInput += OnEnableInput;
             InputSignals.Instance.onDisableInput += OnDisableInput;
+            CoreGameSignals.Instance.onReset += OnReset;
+            CoreGameSignals.Instance.onPlay += OnPlay;
         }
 
         private void OnEnableInput()
@@ -74,10 +74,10 @@ namespace Managers
 
         private void UnSubscribeEvents()
         {
-            CoreGameSignals.Instance.onReset -= OnReset;
-            CoreGameSignals.Instance.onPlay -= OnPlay;
             InputSignals.Instance.onEnableInput -= OnEnableInput;
             InputSignals.Instance.onDisableInput -= OnDisableInput;
+            CoreGameSignals.Instance.onReset -= OnReset;
+            CoreGameSignals.Instance.onPlay -= OnPlay;
         }
 
         private void OnDisable()
