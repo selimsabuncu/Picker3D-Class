@@ -1,5 +1,6 @@
 using UnityEngine;
 using Sirenix.OdinInspector;
+using Enums;
 using Managers;
 using UnityEngine.UI;
 
