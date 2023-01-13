@@ -93,7 +93,7 @@ namespace Managers
 
         private void Start()
         {
-            CoreGameSignals.Instance.onLevelInitialize?.Invoke(levelID);
+            CoreGameSignals.Instance.onLevelInitialize?.Invoke(levelID % totalLevelCount);
             CoreUISignals.Instance.onOpenPanel?.Invoke(Enums.UIPanelTypes.Start, 1);
         }
 
@@ -102,7 +102,7 @@ namespace Managers
             levelID++;
             CoreGameSignals.Instance.onClearActiveLevel?.Invoke();
             CoreGameSignals.Instance.onReset?.Invoke();
-            CoreGameSignals.Instance.onLevelInitialize?.Invoke(levelID);
+            CoreGameSignals.Instance.onLevelInitialize?.Invoke(levelID % totalLevelCount);
         }
 
         private void OnRestartLevel()
@@ -114,7 +114,7 @@ namespace Managers
 
         private int onGetLevelValue()
         {
-            return levelID;
+            return levelID % totalLevelCount;
         }
     }
 }

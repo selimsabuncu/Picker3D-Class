@@ -39,7 +39,7 @@ namespace Controllers.Pool
         private PoolData GetPoolData()
         {
             return Resources.Load<CD_Level>("Data/CD_Level")
-                .Levels[(int)CoreGameSignals.Instance.onGetLevelValue?.Invoke()]
+                .Levels[(int) CoreGameSignals.Instance.onGetLevelValue?.Invoke()]
                 .PoolList[stageID];
         }
 
