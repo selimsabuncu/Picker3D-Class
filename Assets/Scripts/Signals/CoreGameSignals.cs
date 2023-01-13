@@ -1,3 +1,4 @@
+using System;
 using Enums;
 using UnityEngine;
 using UnityEngine.Events;
@@ -30,7 +31,8 @@ public class CoreGameSignals : MonoBehaviour
     public UnityAction onRestartLevel = delegate { };
     public UnityAction onPlay = delegate { };
     public UnityAction onReset = delegate { };
+    public Func<int> onGetLevelValue = delegate { return 0; };
 
-    public UnityAction onStageSuccessful = delegate { };
+    public UnityAction<int> onStageAreaSuccessful = delegate { };
     public UnityAction onStageAreaEntered = delegate { };
 }

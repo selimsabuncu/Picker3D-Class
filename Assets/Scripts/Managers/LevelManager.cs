@@ -1,8 +1,9 @@
-using Commands;
+using Commands.Level;
 using Data.UnityObjects;
 using Signals;
 using UnityEngine;
 using Enums;
+using System;
 
 namespace Managers
 {
@@ -72,14 +73,17 @@ namespace Managers
             CoreGameSignals.Instance.onClearActiveLevel += _levelDestroyerCommand.Execute;
             CoreGameSignals.Instance.onNextLevel += OnNextLevel;
             CoreGameSignals.Instance.onRestartLevel += OnRestartLevel;
+            CoreGameSignals.Instance.onGetLevelValue += onGetLevelValue;
         }
 
         private void UnSubscribeEvents()
         {
-            CoreGameSignals.Instance.onLevelInitialize -= _levelLoaderCommand.Execute; ;
+            CoreGameSignals.Instance.onLevelInitialize -= _levelLoaderCommand.Execute; 
+            ;
             CoreGameSignals.Instance.onClearActiveLevel -= _levelDestroyerCommand.Execute;
             CoreGameSignals.Instance.onNextLevel -= OnNextLevel;
             CoreGameSignals.Instance.onRestartLevel -= OnRestartLevel;
+            CoreGameSignals.Instance.onGetLevelValue -= onGetLevelValue;
         }
 
         private void OnDisable()
@@ -106,6 +110,11 @@ namespace Managers
             CoreGameSignals.Instance.onClearActiveLevel?.Invoke();
             CoreGameSignals.Instance.onReset?.Invoke();
             CoreGameSignals.Instance.onLevelInitialize?.Invoke(levelID);
+        }
+
+        private int onGetLevelValue()
+        {
+            return levelID;
         }
     }
 }
