@@ -1,11 +1,11 @@
 using Commands.Player;
-using Data.ValueObjects;
+using Controllers.Player;
 using Data.UnityObjects;
+using Data.ValueObjects;
+using Keys;
+using Signals;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using Controllers.Player;
-using Signals;
-using Keys;
 
 namespace Managers
 {
@@ -49,15 +49,15 @@ namespace Managers
             ForceCommand = new ForceBallsToPoolCommand(this, _data.MovementData);
         }
 
+        private PlayerData GetPlayerData()
+        {
+            return Resources.Load<CD_Player>("Data/CD_Player").Data;
+        }
+
         private void SendDataToControllers()
         {
             movementController.GetMovementData(_data.MovementData);
             meshController.GetMeshData(_data.ScaleData);
-        }
-
-        private PlayerData GetPlayerData()
-        {
-            return Resources.Load<CD_Player>("Data/CD_Player").Data;
         }
 
         private void OnEnable()
@@ -108,7 +108,7 @@ namespace Managers
             movementController.IsReadyToMove(true);
         }
 
-        private void OnInputDragged(HorizontalInputParams inputParams)
+        private void OnInputDragged(HorizontalnputParams inputParams)
         {
             movementController.UpdateInputParams(inputParams);
         }

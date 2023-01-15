@@ -7,12 +7,6 @@ namespace Data.ValueObjects
     {
         public MovementData MovementData;
         public ScaleData ScaleData;
-
-        public PlayerData(MovementData movementData, ScaleData scaleData)
-        {
-            MovementData = movementData;
-            ScaleData = scaleData;
-        }
     }
 
     [Serializable]

@@ -1,14 +1,14 @@
 using System.Collections.Generic;
-using UnityEngine;
-using Sirenix.OdinInspector;
 using System.Linq;
+using Enums;
 using Signals;
+using Sirenix.OdinInspector;
+using UnityEngine;
 
-namespace Controller.UI
+namespace Controllers
 {
     public class UIPanelController : MonoBehaviour
     {
-
         #region Self Variables
 
         #region Serialized Variables
@@ -18,6 +18,7 @@ namespace Controller.UI
         #endregion
 
         #endregion
+
 
         private void OnEnable()
         {
@@ -31,7 +32,7 @@ namespace Controller.UI
             CoreUISignals.Instance.onCloseAllPanels += OnCloseAllPanels;
         }
 
-        private void UnSubscribeEvents()
+        private void UnsubscribeEvents()
         {
             CoreUISignals.Instance.onOpenPanel -= OnOpenPanel;
             CoreUISignals.Instance.onClosePanel -= OnClosePanel;
@@ -40,20 +41,23 @@ namespace Controller.UI
 
         private void OnDisable()
         {
-            UnSubscribeEvents();
+            UnsubscribeEvents();
         }
 
-        [Button("OpenPanel")]
-        private void OnOpenPanel(Enums.UIPanelTypes type, int layerPos)
+        [Button("OnOpenPanel")]
+        private void OnOpenPanel(UIPanelTypes type, int layerValue)
         {
-            Instantiate(Resources.Load<GameObject>($"Screens/{type}Panel"), layers[layerPos]);
+            OnClosePanel(layerValue);
+            Instantiate(Resources.Load<GameObject>($"Screens/{type}Panel"), layers[layerValue]);
         }
 
-        [Button("ClosePanel")]
-        private void OnClosePanel(int layerPos)
+        [Button("OnClosePanel")]
+        private void OnClosePanel(int layerValue)
         {
-            if (layers[layerPos].transform.childCount > 0)
-            { Destroy(layers[layerPos].GetChild(0).gameObject); }
+            if (layers[layerValue].childCount > 0)
+            {
+                Destroy(layers[layerValue].GetChild(0).gameObject);
+            }
         }
 
         [Button("OnCloseAllPanel")]
@@ -61,7 +65,7 @@ namespace Controller.UI
         {
             foreach (var t in layers.Where(t => t.childCount > 0))
             {
-                { Destroy(t.GetChild(0).gameObject); }
+                Destroy(t.GetChild(0).gameObject);
             }
         }
     }

@@ -1,13 +1,12 @@
 using System.Collections.Generic;
 using Data.UnityObjects;
 using Data.ValueObjects;
-using Signals;
 using Keys;
+using Signals;
 using Sirenix.OdinInspector;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using System;
 
 namespace Managers
 {
@@ -62,16 +61,6 @@ namespace Managers
             CoreGameSignals.Instance.onPlay += OnPlay;
         }
 
-        private void OnEnableInput()
-        {
-            _isAvailableForTouch = true;
-        }
-
-        private void OnDisableInput()
-        {
-            _isAvailableForTouch = false;
-        }
-
         private void UnSubscribeEvents()
         {
             InputSignals.Instance.onEnableInput -= OnEnableInput;
@@ -102,6 +91,7 @@ namespace Managers
             {
                 _isTouching = true;
                 InputSignals.Instance.onInputTaken?.Invoke();
+
                 if (!_isFirstTimeTouchTaken)
                 {
                     _isFirstTimeTouchTaken = true;
@@ -119,6 +109,7 @@ namespace Managers
                     {
                         Vector2 mouseDeltaPos = (Vector2)Input.mousePosition - _mousePosition.Value;
 
+
                         if (mouseDeltaPos.x > _data.HorizontalInputSpeed)
                             _moveVector.x = _data.HorizontalInputSpeed / 10f * mouseDeltaPos.x;
                         else if (mouseDeltaPos.x < -_data.HorizontalInputSpeed)
@@ -129,7 +120,7 @@ namespace Managers
 
                         _mousePosition = Input.mousePosition;
 
-                        InputSignals.Instance.onInputDragged?.Invoke(new HorizontalInputParams()
+                        InputSignals.Instance.onInputDragged?.Invoke(new HorizontalnputParams()
                         {
                             HorizontalInputValue = _moveVector.x,
                             HorizontalInputClampNegativeSide = _data.ClampValues.x,
@@ -145,6 +136,15 @@ namespace Managers
             _isAvailableForTouch = true;
         }
 
+        private void OnEnableInput()
+        {
+            _isAvailableForTouch = true;
+        }
+
+        private void OnDisableInput()
+        {
+            _isAvailableForTouch = false;
+        }
 
         private bool IsPointerOverUIElement()
         {
@@ -152,6 +152,7 @@ namespace Managers
             {
                 position = Input.mousePosition
             };
+
             var results = new List<RaycastResult>();
             EventSystem.current.RaycastAll(eventData, results);
             return results.Count > 0;

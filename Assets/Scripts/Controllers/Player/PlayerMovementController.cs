@@ -43,14 +43,16 @@ namespace Controllers.Player
                 StopPlayer();
                 return;
             }
+
             if (_isReadyToMove)
             {
                 MovePlayer();
             }
-            else StopPlayerHorizontally();
+            else StopPlayerHorizontaly();
+
         }
 
-        private void StopPlayerHorizontally()
+        private void StopPlayerHorizontaly()
         {
             rigidbody.velocity = new float3(0, rigidbody.velocity.y, _data.ForwardSpeed);
             rigidbody.angularVelocity = float3.zero;
@@ -87,14 +89,14 @@ namespace Controllers.Player
         {
             _isReadyToMove = condition;
         }
-
-        internal void UpdateInputParams(HorizontalInputParams inputParams)
+        internal void UpdateInputParams(HorizontalnputParams inputParams)
         {
             _xValue = inputParams.HorizontalInputValue;
-            _clampValues = new float2(inputParams.HorizontalInputClampNegativeSide, inputParams.HorizontalInputClampPositiveSide);
+            _clampValues = new float2(inputParams.HorizontalInputClampNegativeSide,
+                inputParams.HorizontalInputClampPositiveSide);
         }
 
-        internal void OnReset() 
+        internal void OnReset()
         {
             StopPlayer();
             _isReadyToMove = false;

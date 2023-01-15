@@ -1,9 +1,8 @@
-using UnityEngine;
-using Sirenix.OdinInspector;
 using Enums;
 using Managers;
+using Sirenix.OdinInspector;
+using UnityEngine;
 using UnityEngine.UI;
-
 
 public class UIEventSubscriber : MonoBehaviour
 {
@@ -88,3 +87,4 @@ public class UIEventSubscriber : MonoBehaviour
         UnSubscribeEvents();
     }
 }
+

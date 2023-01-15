@@ -22,7 +22,7 @@ namespace Controllers.Player
 
         private void OnTriggerEnter(Collider other)
         {
-            if(other.CompareTag("StageArea"))
+            if (other.CompareTag("StageArea"))
             {
                 manager.ForceCommand.Execute();
                 CoreGameSignals.Instance.onStageAreaEntered?.Invoke();
@@ -49,10 +49,10 @@ namespace Controllers.Player
                 return;
             }
 
-            if (other.CompareTag("MiniGame"))
-            {
-                //Write Mini Game Conditions
-            }
+            //if (other.CompareTag("MiniGame"))
+            //{
+            //    //Write Mini Game Conditions
+            //}
         }
 
         private void OnDrawGizmos()
@@ -65,7 +65,6 @@ namespace Controllers.Player
 
         internal void OnReset()
         {
-            
         }
     }
 }
