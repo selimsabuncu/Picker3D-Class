@@ -63,13 +63,12 @@ namespace Managers
         private void OnLevelSuccessful()
         {
             CoreUISignals.Instance.onOpenPanel?.Invoke(UIPanelTypes.Win, 2);
-            GameObject.Find("Text - Score").GetComponent<TextMeshProUGUI>().text = wheelController.CoinSpinned.ToString();
+            GameObject.Find("Text - Score").GetComponent<TextMeshProUGUI>().text = ("Reward Earned : " + (PlayerPrefs.GetInt("spiningReward")).ToString());
         }
 
         private void OnLevelSuccessfulToSpin()
         {
             CoreUISignals.Instance.onOpenPanel?.Invoke(UIPanelTypes.Spin, 2);
-            wheelController = GameObject.Find("SpinController").GetComponent<WheelController>();
         }
 
         private void OnLevelFailed()

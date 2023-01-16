@@ -16,8 +16,6 @@ namespace Controllers.Wheel
 
         [SerializeField] private PickerWheel _pickerWheel;
 
-        public int CoinSpinned;
-
         #endregion
 
         private void Start()
@@ -27,16 +25,11 @@ namespace Controllers.Wheel
                _uiSpinButton.interactable = false;
                _uiSpinButtonText.text = "Spinning";
 
-               _pickerWheel.OnSpinStart(() =>
-              {
-                  Debug.Log("Spin Started");
-              });
-
                _pickerWheel.OnSpinEnd(WheelPiece =>
                {
                    Debug.Log("Spin end: Label:" + WheelPiece.Label + " , Amount:" + WheelPiece.Amount);
-                   CoinSpinned = WheelPiece.Amount;
-                   CoreUISignals.Instance.onOpenPanel?.Invoke(UIPanelTypes.Win, 2);
+                   PlayerPrefs.SetInt("spiningReward", WheelPiece.Amount);
+                   CoreGameSignals.Instance.onLevelSuccessful?.Invoke();
                });
 
                _pickerWheel.Spin();
