@@ -5,6 +5,7 @@ namespace Enums
         Start,
         Level,
         Win,
-        Fail
+        Fail,
+        Spin
     }
 }

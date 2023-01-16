@@ -1,6 +1,8 @@
 using Enums;
 using Signals;
 using UnityEngine;
+using TMPro;
+using Controllers.Wheel;
 
 namespace Managers
 {
@@ -18,6 +20,8 @@ namespace Managers
 
         #region Private Variables
 
+        private WheelController wheelController;
+
         #endregion
 
         #endregion
@@ -31,6 +35,7 @@ namespace Managers
         {
             CoreGameSignals.Instance.onLevelInitialize += OnLevelInitialize;
             CoreGameSignals.Instance.onLevelSuccessful += OnLevelSuccessful;
+            CoreGameSignals.Instance.onLevelSuccessfulToSpin += OnLevelSuccessfulToSpin;
             CoreGameSignals.Instance.onLevelFailed += OnLevelFailed;
             CoreGameSignals.Instance.onReset += OnReset;
         }
@@ -39,6 +44,7 @@ namespace Managers
         {
             CoreGameSignals.Instance.onLevelInitialize -= OnLevelInitialize;
             CoreGameSignals.Instance.onLevelSuccessful -= OnLevelSuccessful;
+            CoreGameSignals.Instance.onLevelSuccessfulToSpin -= OnLevelSuccessfulToSpin;
             CoreGameSignals.Instance.onLevelFailed -= OnLevelFailed;
             CoreGameSignals.Instance.onReset -= OnReset;
         }
@@ -57,6 +63,13 @@ namespace Managers
         private void OnLevelSuccessful()
         {
             CoreUISignals.Instance.onOpenPanel?.Invoke(UIPanelTypes.Win, 2);
+            GameObject.Find("Text - Score").GetComponent<TextMeshProUGUI>().text = wheelController.CoinSpinned.ToString();
+        }
+
+        private void OnLevelSuccessfulToSpin()
+        {
+            CoreUISignals.Instance.onOpenPanel?.Invoke(UIPanelTypes.Spin, 2);
+            wheelController = GameObject.Find("SpinController").GetComponent<WheelController>();
         }
 
         private void OnLevelFailed()

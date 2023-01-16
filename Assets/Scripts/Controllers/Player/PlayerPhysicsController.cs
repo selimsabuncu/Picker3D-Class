@@ -45,7 +45,9 @@ namespace Controllers.Player
             {
                 CoreGameSignals.Instance.onFinishAreaEntered?.Invoke();
                 InputSignals.Instance.onDisableInput?.Invoke();
-                CoreGameSignals.Instance.onLevelSuccessful?.Invoke();
+
+                CoreGameSignals.Instance.onLevelSuccessfulToSpin?.Invoke();
+                //CoreGameSignals.Instance.onLevelSuccessful?.Invoke();
                 return;
             }
 
